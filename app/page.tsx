@@ -1,7 +1,6 @@
 "use client"
 
-import { SignInButton, SignUpButton, UserButton } from "@clerk/nextjs"
-import { Authenticated, Unauthenticated } from "convex/react"
+import { SignInButton, SignUpButton, UserButton, useUser } from "@clerk/nextjs"
 import {
   ArrowRight,
   Building2,
@@ -23,6 +22,7 @@ import { Button } from "@/components/ui/button"
 
 export default function Home() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
+  const { isSignedIn, isLoaded } = useUser()
 
   return (
     <>
@@ -37,43 +37,44 @@ export default function Home() {
             </Link>
 
             <nav className="hidden items-center gap-6 md:flex">
-              <Authenticated>
-                <Link
-                  href="/import"
-                  className="font-medium text-sm transition-colors hover:text-primary"
-                >
-                  Import
-                </Link>
-                <Link
-                  href="/transactions"
-                  className="font-medium text-sm transition-colors hover:text-primary"
-                >
-                  Transactions
-                </Link>
-                <Link
-                  href="/analytics"
-                  className="font-medium text-sm transition-colors hover:text-primary"
-                >
-                  Analytics
-                </Link>
-              </Authenticated>
+              {isSignedIn && (
+                <>
+                  <Link
+                    href="/import"
+                    className="font-medium text-sm transition-colors hover:text-primary"
+                  >
+                    Import
+                  </Link>
+                  <Link
+                    href="/transactions"
+                    className="font-medium text-sm transition-colors hover:text-primary"
+                  >
+                    Transactions
+                  </Link>
+                  <Link
+                    href="/analytics"
+                    className="font-medium text-sm transition-colors hover:text-primary"
+                  >
+                    Analytics
+                  </Link>
+                </>
+              )}
             </nav>
           </div>
 
           <div className="flex items-center gap-4">
-            <Authenticated>
+            {isSignedIn ? (
               <UserButton />
-            </Authenticated>
-            <Unauthenticated>
-              <SignInButton mode="modal">
-                <Button variant="ghost" size="sm">
-                  Sign In
-                </Button>
-              </SignInButton>
-              <SignUpButton mode="modal">
-                <Button size="sm">Get Started</Button>
-              </SignUpButton>
-            </Unauthenticated>
+            ) : (
+              <>
+                <SignInButton mode="modal">
+                  <Button variant="outline">Sign In</Button>
+                </SignInButton>
+                <SignUpButton mode="modal">
+                  <Button>Get Started</Button>
+                </SignUpButton>
+              </>
+            )}
 
             <button className="md:hidden" onClick={() => setMobileMenuOpen(!mobileMenuOpen)}>
               {mobileMenuOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
@@ -85,38 +86,43 @@ export default function Home() {
         {mobileMenuOpen && (
           <div className="border-t bg-background md:hidden">
             <nav className="container flex flex-col gap-2 py-4">
-              <Authenticated>
-                <Link
-                  href="/import"
-                  className="py-2 font-medium text-sm transition-colors hover:text-primary"
-                >
-                  Import
-                </Link>
-                <Link
-                  href="/transactions"
-                  className="py-2 font-medium text-sm transition-colors hover:text-primary"
-                >
-                  Transactions
-                </Link>
-                <Link
-                  href="/analytics"
-                  className="py-2 font-medium text-sm transition-colors hover:text-primary"
-                >
-                  Analytics
-                </Link>
-              </Authenticated>
+              {isSignedIn && (
+                <>
+                  <Link
+                    href="/import"
+                    className="py-2 font-medium text-sm transition-colors hover:text-primary"
+                  >
+                    Import
+                  </Link>
+                  <Link
+                    href="/transactions"
+                    className="py-2 font-medium text-sm transition-colors hover:text-primary"
+                  >
+                    Transactions
+                  </Link>
+                  <Link
+                    href="/analytics"
+                    className="py-2 font-medium text-sm transition-colors hover:text-primary"
+                  >
+                    Analytics
+                  </Link>
+                </>
+              )}
             </nav>
           </div>
         )}
       </header>
 
       <main>
-        <Authenticated>
+        {!isLoaded ? (
+          <div className="flex h-[60vh] items-center justify-center">
+            <div className="h-8 w-8 animate-spin rounded-full border-4 border-primary border-t-transparent"></div>
+          </div>
+        ) : isSignedIn ? (
           <AuthenticatedHome />
-        </Authenticated>
-        <Unauthenticated>
+        ) : (
           <UnauthenticatedHome />
-        </Unauthenticated>
+        )}
       </main>
 
       <footer className="mt-24 border-t">
