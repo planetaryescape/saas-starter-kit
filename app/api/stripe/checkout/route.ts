@@ -1,14 +1,20 @@
-import { NextRequest, NextResponse } from "next/server"
 import { auth, currentUser } from "@clerk/nextjs/server"
-import { stripe, STRIPE_PRICE_IDS } from "@/lib/stripe"
-import { ConvexHttpClient } from "convex/browser"
+import { type NextRequest, NextResponse } from "next/server"
+import { STRIPE_PRICE_IDS, stripe } from "@/lib/stripe"
+// import { ConvexHttpClient } from "convex/browser"
 // TODO: Uncomment after running `npx convex dev`
 // import { internal } from '@/convex/_generated/api';
 
-const convexClient = new ConvexHttpClient(process.env.NEXT_PUBLIC_CONVEX_URL!)
+// const convexClient = process.env.NEXT_PUBLIC_CONVEX_URL
+//   ? new ConvexHttpClient(process.env.NEXT_PUBLIC_CONVEX_URL)
+//   : null
 
 export async function POST(req: NextRequest) {
   try {
+    if (!stripe) {
+      return NextResponse.json({ error: "Stripe is not configured" }, { status: 503 })
+    }
+
     const { userId } = await auth()
     if (!userId) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 })

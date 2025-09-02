@@ -1,8 +1,8 @@
-import { NextRequest, NextResponse } from "next/server"
 import { headers } from "next/headers"
-import { stripe, allowedStripeEvents } from "@/lib/stripe"
+import { type NextRequest, NextResponse } from "next/server"
+import type Stripe from "stripe"
+import { allowedStripeEvents, stripe } from "@/lib/stripe"
 import { syncStripeDataToConvex } from "@/lib/stripe-sync"
-import Stripe from "stripe"
 
 // Disable body parsing for webhooks
 export const runtime = "nodejs"
@@ -25,6 +25,10 @@ async function processEvent(event: Stripe.Event) {
 }
 
 export async function POST(req: NextRequest) {
+  if (!stripe) {
+    return NextResponse.json({ error: "Stripe is not configured" }, { status: 503 })
+  }
+
   const body = await req.text()
   const signature = (await headers()).get("stripe-signature")
 
@@ -35,7 +39,7 @@ export async function POST(req: NextRequest) {
   let event: Stripe.Event
 
   try {
-    event = stripe.webhooks.constructEvent(body, signature, process.env.STRIPE_WEBHOOK_SECRET!)
+    event = stripe.webhooks.constructEvent(body, signature, process.env.STRIPE_WEBHOOK_SECRET || "")
   } catch (err) {
     console.error("[STRIPE WEBHOOK] Error verifying webhook signature:", err)
     return NextResponse.json({ error: "Invalid signature" }, { status: 400 })

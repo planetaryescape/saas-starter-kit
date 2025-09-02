@@ -13,7 +13,7 @@ export default function ConvexClientProvider({ children }: { children: ReactNode
     console.warn("Convex is not configured. Running without Convex backend.")
     return <>{children}</>
   }
-  
+
   return (
     <ConvexProviderWithClerk client={convex} useAuth={useAuth}>
       {children}

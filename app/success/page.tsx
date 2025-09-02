@@ -1,7 +1,7 @@
-import { redirect } from "next/navigation"
 import { auth } from "@clerk/nextjs/server"
-import { syncStripeDataToConvex } from "@/lib/stripe-sync"
+import { redirect } from "next/navigation"
 import { stripe } from "@/lib/stripe"
+import { syncStripeDataToConvex } from "@/lib/stripe-sync"
 
 export default async function SuccessPage({
   searchParams,

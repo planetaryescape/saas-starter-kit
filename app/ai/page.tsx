@@ -4,19 +4,19 @@ export default function AIPage() {
   return (
     <div className="container mx-auto max-w-4xl py-8">
       <div className="mb-8">
-        <h1 className="text-3xl font-bold">AI Assistant</h1>
-        <p className="text-muted-foreground mt-2">
+        <h1 className="font-bold text-3xl">AI Assistant</h1>
+        <p className="mt-2 text-muted-foreground">
           Chat with AI using multiple providers including OpenAI (GPT-5, GPT-4o), Anthropic
           (Claude), and Google (Gemini).
         </p>
       </div>
 
-      <div className="h-[calc(100vh-20rem)] sm:h-[500px] md:h-[600px] lg:h-[700px] overflow-hidden rounded-lg border bg-card">
+      <div className="h-[calc(100vh-20rem)] overflow-hidden rounded-lg border bg-card sm:h-[500px] md:h-[600px] lg:h-[700px]">
         <AIChat />
       </div>
 
       <div className="mt-8 space-y-4">
-        <h2 className="text-xl font-semibold">Features</h2>
+        <h2 className="font-semibold text-xl">Features</h2>
         <div className="grid gap-4 md:grid-cols-2">
           <div className="rounded-lg border p-4">
             <h3 className="mb-2 font-medium">🤖 Multiple AI Providers</h3>
@@ -50,7 +50,7 @@ export default function AIPage() {
             To use the AI chat, you need to configure at least one AI provider API key in your{" "}
             <code className="rounded bg-muted px-1">.env.local</code> file:
           </p>
-          <ul className="text-muted-foreground mt-2 space-y-1 text-sm">
+          <ul className="mt-2 space-y-1 text-muted-foreground text-sm">
             <li>
               • OpenAI: <code className="rounded bg-muted px-1">OPENAI_API_KEY</code>
             </li>
