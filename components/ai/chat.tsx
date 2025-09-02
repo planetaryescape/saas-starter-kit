@@ -1,7 +1,8 @@
 "use client"
 
 import { useChat } from "@ai-sdk/react"
-import { useState } from "react"
+import { DefaultChatTransport } from "ai"
+import { useState, useMemo } from "react"
 import { Button } from "@/components/ui/button"
 import { cn } from "@/lib/utils"
 import { MODEL_CONFIGS, type AIModel, getAvailableModels } from "@/lib/ai/providers"
@@ -27,13 +28,23 @@ export function AIChat() {
 
   const availableModels = getAvailableModels()
 
-  const { messages, sendMessage, isLoading, stop } = useChat({
-    api: "/api/chat",
-    body: {
-      model: selectedModel,
-      useTools,
-    },
+  const transport = useMemo(
+    () =>
+      new DefaultChatTransport({
+        api: "/api/chat",
+        body: {
+          model: selectedModel,
+          useTools,
+        },
+      }),
+    [selectedModel, useTools],
+  )
+
+  const { messages, sendMessage, status, stop } = useChat({
+    transport,
   })
+
+  const isLoading = status === "streaming" || status === "submitted"
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
@@ -71,11 +82,7 @@ export function AIChat() {
               {MODEL_CONFIGS[selectedModel].displayName}
             </span>
           </div>
-          <Button
-            variant="ghost"
-            size="icon"
-            onClick={() => setShowSettings(!showSettings)}
-          >
+          <Button variant="ghost" size="icon" onClick={() => setShowSettings(!showSettings)}>
             {showSettings ? <X className="h-4 w-4" /> : <Settings className="h-4 w-4" />}
           </Button>
         </div>
@@ -152,9 +159,7 @@ export function AIChat() {
                 <div
                   className={cn(
                     "max-w-[80%] rounded-lg px-3 py-2",
-                    message.role === "user"
-                      ? "bg-primary text-primary-foreground"
-                      : "bg-muted",
+                    message.role === "user" ? "bg-primary text-primary-foreground" : "bg-muted",
                   )}
                 >
                   {message.parts.map((part, i) => {
@@ -179,9 +184,7 @@ export function AIChat() {
                               {getToolIcon(part.type)}
                               <span>Tool: {part.type.replace("tool-", "")}</span>
                             </div>
-                            <pre className="overflow-x-auto">
-                              {JSON.stringify(part, null, 2)}
-                            </pre>
+                            <pre className="overflow-x-auto">{JSON.stringify(part, null, 2)}</pre>
                           </div>
                         )
                       case "reasoning":
