@@ -1,8 +1,8 @@
-import { NextRequest, NextResponse } from "next/server"
 import { headers } from "next/headers"
-import { stripe, allowedStripeEvents } from "@/lib/stripe"
+import { type NextRequest, NextResponse } from "next/server"
+import type Stripe from "stripe"
+import { allowedStripeEvents, stripe } from "@/lib/stripe"
 import { syncStripeDataToConvex } from "@/lib/stripe-sync"
-import Stripe from "stripe"
 
 // Disable body parsing for webhooks
 export const runtime = "nodejs"

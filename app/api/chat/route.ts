@@ -1,13 +1,17 @@
-import { streamText, convertToModelMessages, stepCountIs } from "ai"
 import type { UIMessage } from "ai"
-import { getModel, type AIModel } from "@/lib/ai/providers"
+import { convertToModelMessages, stepCountIs, streamText } from "ai"
+import { type AIModel, getModel } from "@/lib/ai/providers"
 import { allTools } from "@/lib/ai/tools"
 
 export const maxDuration = 30
 
 export async function POST(req: Request) {
   try {
-    const { messages, model = "gpt-4o-mini", useTools = true }: {
+    const {
+      messages,
+      model = "gpt-4o-mini",
+      useTools = true,
+    }: {
       messages: UIMessage[]
       model?: AIModel
       useTools?: boolean

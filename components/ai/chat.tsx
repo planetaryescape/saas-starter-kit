@@ -2,23 +2,23 @@
 
 import { useChat } from "@ai-sdk/react"
 import { DefaultChatTransport } from "ai"
-import { useState, useMemo } from "react"
-import { Button } from "@/components/ui/button"
-import { cn } from "@/lib/utils"
-import { MODEL_CONFIGS, type AIModel, getAvailableModels } from "@/lib/ai/providers"
 import {
-  Send,
   Bot,
-  User,
-  Loader2,
-  Settings,
-  X,
-  Cloud,
   Calculator,
   Calendar,
+  Cloud,
   Globe,
+  Loader2,
+  Send,
+  Settings,
   ThermometerSun,
+  User,
+  X,
 } from "lucide-react"
+import { useMemo, useState } from "react"
+import { Button } from "@/components/ui/button"
+import { type AIModel, getAvailableModels, MODEL_CONFIGS } from "@/lib/ai/providers"
+import { cn } from "@/lib/utils"
 
 export function AIChat() {
   const [input, setInput] = useState("")
@@ -90,7 +90,7 @@ export function AIChat() {
         {showSettings && (
           <div className="mt-4 space-y-4 border-t pt-4">
             <div>
-              <label className="text-sm font-medium">Model</label>
+              <label className="font-medium text-sm">Model</label>
               <select
                 value={selectedModel}
                 onChange={(e) => setSelectedModel(e.target.value as AIModel)}
@@ -103,14 +103,14 @@ export function AIChat() {
                 ))}
               </select>
               {availableModels.length === 0 && (
-                <p className="text-destructive mt-2 text-xs">
+                <p className="mt-2 text-destructive text-xs">
                   No API keys configured. Please add API keys in your .env.local file.
                 </p>
               )}
             </div>
 
             <div className="flex items-center justify-between">
-              <label className="text-sm font-medium">Enable Tools</label>
+              <label className="font-medium text-sm">Enable Tools</label>
               <input
                 type="checkbox"
                 checked={useTools}
@@ -131,7 +131,7 @@ export function AIChat() {
 
       <div className="flex-1 overflow-y-auto p-4">
         {messages.length === 0 ? (
-          <div className="text-muted-foreground flex h-full items-center justify-center text-center">
+          <div className="flex h-full items-center justify-center text-center text-muted-foreground">
             <div>
               <Bot className="mx-auto mb-4 h-12 w-12 opacity-50" />
               <p>Start a conversation with the AI assistant</p>
@@ -250,7 +250,7 @@ export function AIChat() {
           )}
         </div>
         {availableModels.length === 0 && (
-          <p className="text-destructive mt-2 text-xs">
+          <p className="mt-2 text-destructive text-xs">
             Please configure at least one AI provider API key in your .env.local file
           </p>
         )}

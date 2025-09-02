@@ -1,5 +1,5 @@
 import { generateText } from "ai"
-import { getModel, type AIModel } from "@/lib/ai/providers"
+import { type AIModel, getModel } from "@/lib/ai/providers"
 
 export const maxDuration = 30
 

@@ -11,14 +11,6 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 })
 
-export default function AITestLayout({
-  children,
-}: {
-  children: React.ReactNode
-}) {
-  return (
-    <div className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
-      {children}
-    </div>
-  )
+export default function AITestLayout({ children }: { children: React.ReactNode }) {
+  return <div className={`${geistSans.variable} ${geistMono.variable} antialiased`}>{children}</div>
 }

@@ -1,12 +1,12 @@
 "use client"
 
+import { format } from "date-fns"
+import { AlertCircle, Calendar, CreditCard, Sparkles } from "lucide-react"
+import { Button } from "@/components/ui/button"
 // TODO: Uncomment after running `npx convex dev`
 // import { useQuery } from 'convex/react';
 // import { api } from '@/convex/_generated/api';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { Button } from "@/components/ui/button"
-import { Sparkles, CreditCard, Calendar, AlertCircle } from "lucide-react"
-import { format } from "date-fns"
 
 type SubscriptionData = {
   subscriptionId: string | null
@@ -51,7 +51,7 @@ export function SubscriptionStatus() {
           <CardDescription>You're currently on the free plan</CardDescription>
         </CardHeader>
         <CardContent>
-          <p className="text-sm text-muted-foreground mb-4">
+          <p className="mb-4 text-muted-foreground text-sm">
             Upgrade to unlock premium features and unlimited AI conversations.
           </p>
           <Button asChild>
@@ -74,7 +74,7 @@ export function SubscriptionStatus() {
         </CardTitle>
         <CardDescription>
           <span
-            className={`inline-flex items-center gap-1 px-2 py-1 rounded-full text-xs font-medium ${
+            className={`inline-flex items-center gap-1 rounded-full px-2 py-1 font-medium text-xs ${
               isActive ? "bg-green-100 text-green-700" : "bg-gray-100 text-gray-700"
             }`}
           >
@@ -104,7 +104,7 @@ export function SubscriptionStatus() {
         )}
 
         {subscription.cancelAtPeriodEnd && (
-          <div className="flex items-center gap-2 p-3 bg-yellow-50 rounded-lg">
+          <div className="flex items-center gap-2 rounded-lg bg-yellow-50 p-3">
             <AlertCircle className="h-4 w-4 text-yellow-600" />
             <p className="text-sm text-yellow-800">
               Your subscription will be canceled at the end of the current billing period.

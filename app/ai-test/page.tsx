@@ -13,17 +13,17 @@ export default function AITestPage() {
     setLoading(true)
     setError("")
     setResponse("")
-    
+
     try {
       const res = await fetch("/api/completion", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ 
+        body: JSON.stringify({
           prompt: prompt || "Hello, how are you?",
-          model: "gpt-4o-mini"
-        })
+          model: "gpt-4o-mini",
+        }),
       })
-      
+
       const data = await res.json()
       if (data.error) {
         setError(data.error)
@@ -41,18 +41,18 @@ export default function AITestPage() {
     setLoading(true)
     setError("")
     setResponse("")
-    
+
     try {
       const res = await fetch("/api/generate-object", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ 
+        body: JSON.stringify({
           prompt: prompt || "Generate a person named John Doe who is 30 years old",
           model: "gpt-4o-mini",
-          schemaType: "person"
-        })
+          schemaType: "person",
+        }),
       })
-      
+
       const data = await res.json()
       if (data.error) {
         setError(data.error)
@@ -68,16 +68,16 @@ export default function AITestPage() {
 
   return (
     <div className="container mx-auto max-w-4xl py-8">
-      <h1 className="text-3xl font-bold mb-8">AI SDK Test Page</h1>
-      
+      <h1 className="mb-8 font-bold text-3xl">AI SDK Test Page</h1>
+
       <div className="space-y-4">
         <div>
-          <label className="block text-sm font-medium mb-2">Test Prompt</label>
+          <label className="mb-2 block font-medium text-sm">Test Prompt</label>
           <textarea
             value={prompt}
             onChange={(e) => setPrompt(e.target.value)}
             placeholder="Enter your test prompt..."
-            className="w-full min-h-[100px] p-3 border rounded-lg"
+            className="min-h-[100px] w-full rounded-lg border p-3"
           />
         </div>
 
@@ -91,30 +91,30 @@ export default function AITestPage() {
         </div>
 
         {loading && (
-          <div className="p-4 bg-muted rounded-lg">
+          <div className="rounded-lg bg-muted p-4">
             <p>Loading...</p>
           </div>
         )}
 
         {error && (
-          <div className="p-4 bg-destructive/10 text-destructive rounded-lg">
+          <div className="rounded-lg bg-destructive/10 p-4 text-destructive">
             <p className="font-medium">Error:</p>
             <pre className="mt-2 text-sm">{error}</pre>
           </div>
         )}
 
         {response && (
-          <div className="p-4 bg-muted rounded-lg">
-            <p className="font-medium mb-2">Response:</p>
+          <div className="rounded-lg bg-muted p-4">
+            <p className="mb-2 font-medium">Response:</p>
             <pre className="whitespace-pre-wrap text-sm">{response}</pre>
           </div>
         )}
 
-        <div className="mt-8 p-4 bg-muted/50 rounded-lg">
-          <h2 className="font-medium mb-2">Configuration Status</h2>
-          <p className="text-sm text-muted-foreground">
-            This page tests the AI SDK endpoints directly without requiring Convex.
-            Make sure you have at least one API key configured in your .env.local file:
+        <div className="mt-8 rounded-lg bg-muted/50 p-4">
+          <h2 className="mb-2 font-medium">Configuration Status</h2>
+          <p className="text-muted-foreground text-sm">
+            This page tests the AI SDK endpoints directly without requiring Convex. Make sure you
+            have at least one API key configured in your .env.local file:
           </p>
           <ul className="mt-2 space-y-1 text-sm">
             <li>• OpenAI: OPENAI_API_KEY</li>

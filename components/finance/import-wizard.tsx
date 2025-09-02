@@ -1,21 +1,21 @@
 "use client"
 
-import { useState } from "react"
 import { useMutation, useQuery } from "convex/react"
-import { api } from "@/convex/_generated/api"
-import { Button } from "@/components/ui/button"
-import { cn } from "@/lib/utils"
 import {
-  Upload,
-  FileText,
-  CheckCircle,
-  XCircle,
-  Loader2,
   AlertCircle,
-  CreditCard,
+  CheckCircle,
   ChevronRight,
+  CreditCard,
+  FileText,
+  Loader2,
+  Upload,
+  XCircle,
 } from "lucide-react"
-import { parseCSV, type ParseResult } from "@/lib/finance/parsers"
+import { useState } from "react"
+import { Button } from "@/components/ui/button"
+import { api } from "@/convex/_generated/api"
+import { type ParseResult, parseCSV } from "@/lib/finance/parsers"
+import { cn } from "@/lib/utils"
 
 type Step = "upload" | "account" | "preview" | "importing" | "complete"
 
@@ -145,12 +145,12 @@ export function ImportWizard() {
 
       {/* Upload Step */}
       {step === "upload" && (
-        <div className="rounded-lg border-2 border-dashed border-muted-foreground/25 p-12">
+        <div className="rounded-lg border-2 border-muted-foreground/25 border-dashed p-12">
           <div className="flex flex-col items-center justify-center space-y-4">
             <Upload className="h-12 w-12 text-muted-foreground" />
             <div className="text-center">
-              <p className="text-lg font-medium">Upload Bank Statement CSV</p>
-              <p className="text-sm text-muted-foreground mt-1">
+              <p className="font-medium text-lg">Upload Bank Statement CSV</p>
+              <p className="mt-1 text-muted-foreground text-sm">
                 Supported banks: Monzo, Barclays, and more
               </p>
             </div>
@@ -178,7 +178,7 @@ export function ImportWizard() {
               <FileText className="h-5 w-5" />
               <span className="font-medium">{file?.name}</span>
             </div>
-            <div className="mt-2 text-sm text-muted-foreground">
+            <div className="mt-2 text-muted-foreground text-sm">
               <p>Bank: {parseResult.bankType}</p>
               <p>Transactions: {parseResult.transactions.length}</p>
               {parseResult.dateRange && (
@@ -190,8 +190,8 @@ export function ImportWizard() {
           </div>
 
           <div className="space-y-4">
-            <h3 className="text-lg font-medium">Select Account</h3>
-            <p className="text-sm text-muted-foreground">
+            <h3 className="font-medium text-lg">Select Account</h3>
+            <p className="text-muted-foreground text-sm">
               Choose which account to import these transactions into
             </p>
 
@@ -212,7 +212,7 @@ export function ImportWizard() {
                       <CreditCard className="h-5 w-5" />
                       <div>
                         <p className="font-medium">{account.name}</p>
-                        <p className="text-sm text-muted-foreground">
+                        <p className="text-muted-foreground text-sm">
                           {account.bankName && `${account.bankName} • `}
                           {account.type} • {account.currency}
                         </p>
@@ -256,7 +256,7 @@ export function ImportWizard() {
       {step === "preview" && parseResult && (
         <div className="space-y-4">
           <div className="rounded-lg border p-4">
-            <h3 className="font-medium mb-3">Import Preview</h3>
+            <h3 className="mb-3 font-medium">Import Preview</h3>
             <div className="space-y-2 text-sm">
               <div className="flex justify-between">
                 <span className="text-muted-foreground">Total transactions:</span>
@@ -278,7 +278,7 @@ export function ImportWizard() {
           {/* Sample transactions */}
           <div className="rounded-lg border">
             <div className="border-b bg-muted/50 px-4 py-2">
-              <h4 className="text-sm font-medium">Sample Transactions (first 5)</h4>
+              <h4 className="font-medium text-sm">Sample Transactions (first 5)</h4>
             </div>
             <div className="divide-y">
               {parseResult.transactions.slice(0, 5).map((t, i) => (
@@ -312,8 +312,8 @@ export function ImportWizard() {
       {step === "importing" && (
         <div className="flex flex-col items-center justify-center py-12">
           <Loader2 className="h-12 w-12 animate-spin text-primary" />
-          <p className="mt-4 text-lg font-medium">Importing transactions...</p>
-          <p className="text-sm text-muted-foreground">This may take a few moments</p>
+          <p className="mt-4 font-medium text-lg">Importing transactions...</p>
+          <p className="text-muted-foreground text-sm">This may take a few moments</p>
         </div>
       )}
 
@@ -324,18 +324,18 @@ export function ImportWizard() {
             {importResult.success ? (
               <>
                 <CheckCircle className="h-16 w-16 text-green-600" />
-                <h3 className="mt-4 text-xl font-semibold">Import Complete!</h3>
+                <h3 className="mt-4 font-semibold text-xl">Import Complete!</h3>
               </>
             ) : (
               <>
                 <XCircle className="h-16 w-16 text-red-600" />
-                <h3 className="mt-4 text-xl font-semibold">Import Failed</h3>
+                <h3 className="mt-4 font-semibold text-xl">Import Failed</h3>
               </>
             )}
           </div>
 
           <div className="rounded-lg border p-4">
-            <h4 className="font-medium mb-3">Import Summary</h4>
+            <h4 className="mb-3 font-medium">Import Summary</h4>
             <div className="space-y-2 text-sm">
               <div className="flex items-center justify-between">
                 <span className="text-muted-foreground">Imported:</span>
@@ -365,10 +365,10 @@ export function ImportWizard() {
           {importResult.errors.length > 0 && (
             <div className="rounded-lg border border-red-200 bg-red-50 p-4">
               <div className="flex items-start gap-2">
-                <AlertCircle className="h-5 w-5 text-red-600 mt-0.5" />
+                <AlertCircle className="mt-0.5 h-5 w-5 text-red-600" />
                 <div className="flex-1">
                   <h4 className="font-medium text-red-900">Import Errors</h4>
-                  <ul className="mt-2 space-y-1 text-sm text-red-800">
+                  <ul className="mt-2 space-y-1 text-red-800 text-sm">
                     {importResult.errors.slice(0, 5).map((error, i) => (
                       <li key={i}>• {error}</li>
                     ))}

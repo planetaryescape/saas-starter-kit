@@ -1,6 +1,6 @@
 import { generateObject } from "ai"
-import { getModel, type AIModel } from "@/lib/ai/providers"
 import { z } from "zod"
+import { type AIModel, getModel } from "@/lib/ai/providers"
 
 export const maxDuration = 30
 
@@ -29,10 +29,12 @@ const exampleSchemas = {
     location: z.object({
       name: z.string().describe("Location name"),
       address: z.string().describe("Full address"),
-      coordinates: z.object({
-        lat: z.number().describe("Latitude"),
-        lng: z.number().describe("Longitude"),
-      }).optional(),
+      coordinates: z
+        .object({
+          lat: z.number().describe("Latitude"),
+          lng: z.number().describe("Longitude"),
+        })
+        .optional(),
     }),
     attendees: z.array(z.string()).describe("List of attendee names"),
     isVirtual: z.boolean().describe("Whether the event is virtual"),
@@ -54,13 +56,10 @@ export async function POST(req: Request) {
     } = await req.json()
 
     if (!prompt) {
-      return new Response(
-        JSON.stringify({ error: "Prompt is required" }),
-        {
-          status: 400,
-          headers: { "Content-Type": "application/json" },
-        },
-      )
+      return new Response(JSON.stringify({ error: "Prompt is required" }), {
+        status: 400,
+        headers: { "Content-Type": "application/json" },
+      })
     }
 
     const selectedModel = getModel(model)

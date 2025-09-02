@@ -1,6 +1,6 @@
-import { NextRequest, NextResponse } from "next/server"
 import { auth, currentUser } from "@clerk/nextjs/server"
-import { stripe, STRIPE_PRICE_IDS } from "@/lib/stripe"
+import { type NextRequest, NextResponse } from "next/server"
+import { STRIPE_PRICE_IDS, stripe } from "@/lib/stripe"
 // import { ConvexHttpClient } from "convex/browser"
 // TODO: Uncomment after running `npx convex dev`
 // import { internal } from '@/convex/_generated/api';

@@ -1,5 +1,5 @@
 import { v } from "convex/values"
-import { query, internalMutation, internalQuery } from "./_generated/server"
+import { internalMutation, internalQuery, query } from "./_generated/server"
 
 export const getOrCreateUser = internalMutation({
   args: {

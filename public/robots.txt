@@ -1,0 +1,13 @@
+# Robots.txt for Eanie Meanie
+# Allow all search engines to crawl the site
+
+User-agent: *
+Allow: /
+Disallow: /api/
+Disallow: /server/
+
+# Sitemap location
+Sitemap: https://eaniemeanie.com/sitemap.xml
+
+# Crawl-delay for responsible crawling
+Crawl-delay: 1

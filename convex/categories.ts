@@ -1,7 +1,7 @@
-import { mutation, query } from "./_generated/server"
 import { v } from "convex/values"
-import type { Id } from "./_generated/dataModel"
 import { getFlatCategories } from "../lib/finance/default-categories"
+import type { Id } from "./_generated/dataModel"
+import { mutation, query } from "./_generated/server"
 
 export const seedDefaultCategories = mutation({
   args: { userId: v.id("users") },
